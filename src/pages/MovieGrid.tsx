@@ -1,38 +1,37 @@
 import MovieCard from '../components/MovieCard'
 
 
-import type { MovieApiResponse, Movie } from '../interfaces/MovieApiResponse'
+import type { Movie } from '../interfaces/MovieApiResponse'
 import '../styles/MovieGridStyle.css'
-import { useEffect, useRef, useState } from 'react'
-import { getMovies } from '../ts/httpclient'
+import { useEffect,useState } from 'react'
+import { getMovies } from '../utils/httpclient'
 
 import Spinner from '../components/Spinner'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import {useQuery} from '../hook/useQuery';
 
 interface MovieGridProps {
-  search: string;
+  debounce: string;
 }
 
 
-export default function MovieGrid({search} : MovieGridProps) {
+export default function MovieGrid({debounce} : MovieGridProps) {
 
     
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [isError, setIsError] = useState(false);
+    const [isResults, setIsResults] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore,setHasMore] = useState(true)
 
 
     useEffect(() => {
     
-        const url: string = search ? `search/movie?query=${search}&include_adult=false&language=en-US&page=${page}` : `discover/movie?page=${page}`;
+        const url: string = debounce ? `search/movie?query=${debounce}&include_adult=false&language=en-US&page=${page}` : `discover/movie?page=${page}`;
         console.log(url)
         getMovies(url).then((data) => {
             if (data && data.results.length > 0) {
 
                 setMovies(prevData => {
-                    const nuevos = data.results.filter ( n => !prevData.some(p => p.id === n.id));
+                    const nuevos = data.results.filter ( n => !prevData.some(p => p.id ===  n.id));
                     return [...prevData, ...nuevos];
                 })
                 
@@ -40,15 +39,15 @@ export default function MovieGrid({search} : MovieGridProps) {
 
 
             } else {
-                setIsError(true);
+                setIsResults(true);
             }
         })
-    }, [search,page]);
+    }, [debounce,page]);
 
 
 
-    if (isError) {
-        return <div> <Spinner /> Error</div>
+    if (isResults) {
+        return <p>No results</p>
     }
 
 

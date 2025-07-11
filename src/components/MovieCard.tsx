@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import getImage from "../utils/getImage";
 
  
  
@@ -12,7 +13,8 @@ import { Link } from "react-router-dom";
 
 export default function MovieCard({id,poster_path, movie} : Props){
 
-    const url : string = `https://image.tmdb.org/t/p/w300/${poster_path}`;
-    return <li><Link to={`/movie/${id}`}><img src={url} alt={movie}/></Link><p>{movie}</p></li>
+
+
+    return <li><Link to={`/movie/${id}`}><img src={getImage(300, poster_path)} width={300} height={450} alt={movie}/></Link><p>{movie}</p></li>
 
 }

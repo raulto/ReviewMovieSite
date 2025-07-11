@@ -3,7 +3,8 @@ import '../styles/MovieDetailsStyle.css'
 import { useEffect, useState } from 'react';
 import Spinner from '../components/Spinner'
 import type { Details } from '../interfaces/Details';
-import {getDetails} from '../ts/httpclient';
+import {getDetails} from '../utils/httpclient';
+import getImage from '../utils/getImage';
 
 
 
@@ -24,7 +25,6 @@ export default function MovieDetails() {
     const {movieId} = useParams<Params>();
     const [isLoading,setIsLoading] = useState(true);
     const [movieDetails, setMovieDetails] = useState<Details | null >(null);
-    const url : string= `https://image.tmdb.org/t/p/w300/${movieDetails?.poster_path}`;
 
 
     useEffect(() =>{
@@ -59,7 +59,7 @@ export default function MovieDetails() {
         <div className="containerDetails">
           
             <div>
-                <img src={url} />
+                <img src={getImage(500,movieDetails?.poster_path)} width={300} height={450}  />
             </div>
             <div className="overview">
                 <div className="details">

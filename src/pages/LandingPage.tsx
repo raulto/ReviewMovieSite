@@ -1,15 +1,17 @@
+import useDebounce  from "../hook/useDebounce";
 import Search from "../components/Search";
-import { useQuery } from "../hook/useQuery";
+import useQuery  from "../hook/useQuery";
 import MovieGrid from "./MovieGrid";
 
 export default function LandingPage(){
 
         const query = useQuery();
-        const search:String = query.get("search") ?? "";
+        const search:string = query.get("search") ?? "";
+        const debounce = useDebounce(search, 3000);
     return(
         <div>
             <Search></Search>
-            <MovieGrid key={search} search={search}></MovieGrid>
+            <MovieGrid key={debounce} debounce={debounce}></MovieGrid>
         </div>
     )
 }

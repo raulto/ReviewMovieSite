@@ -1,4 +1,4 @@
-import type { MovieApiResponse} from './../interfaces/MovieApiResponse';
+import type { MovieApiResponse} from '../interfaces/MovieApiResponse';
 
 import type { Details } from '../interfaces/Details';
 
